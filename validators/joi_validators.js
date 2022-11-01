@@ -8,7 +8,7 @@ const customerValidator = Joi.object({
 
 const productValidator = Joi.object({
   name: Joi.string().required(),
-  price: Joi.string().email().required(),
+  price: Joi.number().required(),
   description: Joi.string().required().min(8),
 });
 
