@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const customerSchema = new Schema({
   name: {
@@ -14,6 +15,8 @@ const customerSchema = new Schema({
     required: true,
   },
 });
+
+customerSchema.pre("save", (next) => {});
 
 const Customer = model("customer", customerSchema);
 

@@ -12,8 +12,10 @@ router.post("/register/user", async (req, res) => {
 
     if (!validBody) throw new Error(validBody);
 
-    const { name, email, password } = validBody;
-  } catch (err) {}
+    const newUser = await Customer.create(validBody);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
 });
 
 router.post("/register/product", (req, res) => {});
