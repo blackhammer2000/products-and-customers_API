@@ -8,6 +8,11 @@ const {
 
 router.post("/register/user", async (req, res) => {
   try {
+    const validBody = await customerValidator.validateAsync(req.body);
+
+    if (!validBody) throw new Error(validBody);
+
+    const { name, email, password } = validBody;
   } catch (err) {}
 });
 
