@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Customer = require("../schemas/customer");
-const Product = require("../schemas/products");
+// const Product = require("../schemas/products");
 const {
   customerValidator,
   productValidator,
@@ -13,6 +13,7 @@ router.post("/register/user", async (req, res) => {
     if (!validBody) throw new Error(validBody);
 
     const newUser = await Customer.create(validBody);
+    res.send(newUser);
   } catch (err) {
     res.json({ error: err.message });
   }
