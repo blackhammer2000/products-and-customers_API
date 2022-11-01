@@ -14,11 +14,16 @@ const signAccessToken = (customerID) => {
 const verifyAccessToken = async (req, res, next) => {
   try {
     if (!req.headers.token) throw new Error("Unauthorized");
-    const { customerID } = await jwt.verify(
+    const { customerID } = jwt.verify(
       req.headers.token,
-      process.env.SECRET_KEY,
-      options
+      process.env.SECRET_KEY
     );
+
+    if (!customerID) throw new Error("Unauthorized");
+
+    req.body.id = customerID;
+
+    next();
   } catch (err) {
     res.json({ error: err.message });
   }
