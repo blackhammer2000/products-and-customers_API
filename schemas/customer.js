@@ -16,7 +16,15 @@ const customerSchema = new Schema({
   },
 });
 
-customerSchema.pre("save", (next) => {});
+customerSchema.pre("save", async function (next) {
+  try {
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashedPassword;
+    next();
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
 
 const Customer = model("customer", customerSchema);
 
