@@ -5,14 +5,14 @@ const {
   customerValidator,
   productValidator,
 } = require("../validators/joi_validators");
+const {
+  validateCustomerBody,
+  validateProductBody,
+} = require("./helpers/body_validators");
 
-router.post("/register/user", async (req, res) => {
+router.post("/register/user", validateCustomerBody, async (req, res) => {
   try {
-    const validBody = await customerValidator.validateAsync(req.body);
-
-    if (!validBody) throw new Error(validBody);
-
-    const newUser = await Customer.create(validBody);
+    const newUser = await Customer.create(req.body);
 
     if (!newUser) throw new Error(newUser);
 
@@ -22,6 +22,6 @@ router.post("/register/user", async (req, res) => {
   }
 });
 
-router.post("/register/product", (req, res) => {});
+router.post("/register/product", validateProductBody, async (req, res) => {});
 
 module.exports = router;
