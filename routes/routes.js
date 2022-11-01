@@ -1,10 +1,7 @@
 const router = require("express").Router();
 const Customer = require("../schemas/customer");
-// const Product = require("../schemas/products");
-const {
-  customerValidator,
-  productValidator,
-} = require("../validators/joi_validators");
+const Product = require("../schemas/product");
+
 const {
   validateCustomerBody,
   validateProductBody,
@@ -22,6 +19,16 @@ router.post("/register/user", validateCustomerBody, async (req, res) => {
   }
 });
 
-router.post("/register/product", validateProductBody, async (req, res) => {});
+router.post("/register/product", validateProductBody, async (req, res) => {
+  try {
+    const newProduct = await Product.create(req.body);
+
+    if (!newProduct) throw new Error(newProduct);
+
+    res.send({ message: "product created" });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
 
 module.exports = router;
